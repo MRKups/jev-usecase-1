@@ -1,0 +1,53 @@
+# Binaries and build artifacts
+/bin/
+/jev
+/ticket-eval
+/output/
+
+# Test artifacts, profiling, and coverage
+*.test
+*.out
+coverage.*
+*.coverprofile
+profile.cov
+*.pprof
+*.prof
+
+# Go workspace
+go.work
+go.work.sum
+
+# Local environment variables and runtime secrets
+.env
+.env.*
+!.env.example
+config.json
+config.*.json
+dataset*.json
+!dataset.json
+questions*.json
+tickets*.json
+tickets*.csv
+
+# Editor and IDE directories
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+*.sublime-project
+*.sublime-workspace
+
+# Operating system metadata
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Agent and temporary scratch space
+/.scratch/
+/.gemini/
+/.cursor/
