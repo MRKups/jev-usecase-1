@@ -1,0 +1,123 @@
+{{define "page_decision"}}
+    <div id="page-showcase" class="page">
+      <div class="showcase-action-bar">
+        <div class="action-bar-left">
+          <button class="btn btn-primary" id="btn-run-all-triage" onclick="runTriageAll()">
+            Evaluate All Tickets
+          </button>
+          <button class="btn" id="btn-cancel-triage" onclick="cancelTriageRun()" style="display: none; padding: 6px 14px; font-size: 0.82rem;">
+            Cancel
+          </button>
+          <button class="btn" id="btn-eval-selected" onclick="triageSelectedTicket()" disabled style="padding: 6px 14px; font-size: 0.82rem;">
+            Evaluate Selected
+          </button>
+          <span id="showcase-status-text" style="color: var(--text-muted); font-size: 0.83rem;">
+            Loading tickets...
+          </span>
+        </div>
+        <div class="action-bar-right">
+          <span>Click a row to select, double-click to open details.</span>
+          <button class="btn" id="btn-export-csv" onclick="exportEvaluationCSV()" style="padding: 6px 12px; font-size: 0.82rem;" title="Export tickets and triage decisions to CSV">
+            Export CSV
+          </button>
+          <button class="btn" id="btn-export-html" onclick="exportEvaluationHTML()" style="padding: 6px 12px; font-size: 0.82rem;" title="Export standalone interactive HTML report">
+            Export HTML
+          </button>
+        </div>
+      </div>
+
+      <div class="comparison-view-container">
+        <div class="comparison-table-scroll">
+          <table class="comparison-table" id="comparison-table">
+            <colgroup id="comparison-colgroup">
+              <!-- Ticket columns (~33.3%) -->
+              <col style="width: 28px;">
+              <col style="width: 60px;">
+              <col style="width: 220px;">
+              <col style="width: 120px;">
+              <col style="width: 65px;">
+              <col style="width: 50px;">
+
+              <!-- Decision Engine A columns (~33.3%) -->
+              <col style="width: 65px;">
+              <col style="width: 80px;">
+              <col style="width: 65px;">
+              <col style="width: 55px;">
+              <col style="width: 110px;">
+              <col style="width: 90px;">
+              <col style="width: 65px;">
+
+              <!-- Decision Engine B columns (~33.3%) -->
+              <col style="width: 65px;">
+              <col style="width: 80px;">
+              <col style="width: 65px;">
+              <col style="width: 55px;">
+              <col style="width: 110px;">
+              <col style="width: 90px;">
+              <col style="width: 65px;">
+            </colgroup>
+            <thead id="comparison-thead">
+              <!-- Group Headers (3 equal thirds) -->
+              <tr class="group-header-row">
+                <th colspan="6" class="group-header-ticket">
+                  <div class="group-header-content">
+                    <span class="group-title">Ticket</span>
+                  </div>
+                </th>
+                <th colspan="7" class="group-header-engine-a" id="hdr-engine-a-group">
+                  <div class="group-header-content">
+                    <span class="group-title" id="hdr-engine-a-title">Decision Engine A</span>
+                    <span class="group-model-badge" id="hdr-engine-a-model" style="display: none;">typesafe/jev</span>
+                    <span class="group-median-badge" id="hdr-engine-a-median">median -</span>
+                  </div>
+                </th>
+                <th colspan="7" class="group-header-engine-b" id="hdr-engine-b-group">
+                  <div class="group-header-content">
+                    <span class="group-title" id="hdr-engine-b-title">Decision Engine B</span>
+                    <span class="group-model-badge" id="hdr-engine-b-model" style="display: none;">model</span>
+                    <span class="group-median-badge" id="hdr-engine-b-median">median -</span>
+                  </div>
+                </th>
+              </tr>
+
+              <!-- Sub-column Headers -->
+              <tr class="sub-header-row" id="comparison-sub-header-row">
+                <!-- Ticket -->
+                <th></th>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Filed as</th>
+                <th>Urgency</th>
+                <th class="col-border-ticket-end" style="text-align: center;">Agree</th>
+
+                <!-- Decision Engine A -->
+                <th>Type</th>
+                <th>Domain</th>
+                <th>Urgency</th>
+                <th>Security</th>
+                <th>Group</th>
+                <th>Blast radius</th>
+                <th class="col-border-engine-a-end" style="text-align: right;">Time</th>
+
+                <!-- Decision Engine B -->
+                <th>Type</th>
+                <th>Domain</th>
+                <th>Urgency</th>
+                <th>Security</th>
+                <th>Group</th>
+                <th>Blast radius</th>
+                <th style="text-align: right;">Time</th>
+              </tr>
+            </thead>
+            <tbody id="comparison-tbody">
+              <tr>
+                <td colspan="20" style="text-align: center; color: var(--text-muted); padding: 40px;">
+                  No tickets generated yet. Generate tickets on page 2.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+{{end}}

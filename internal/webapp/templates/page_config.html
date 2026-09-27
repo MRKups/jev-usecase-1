@@ -1,0 +1,243 @@
+{{define "page_config"}}
+    <div id="page-config" class="page active">
+      <div class="config-layout">
+        <!-- Card 1: Ticket Generator Model -->
+        <div class="card config-card" id="card-generator">
+          <div class="card-header">
+            <span class="card-title">Ticket Generator Model</span>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Provider</label>
+            <div class="provider-selector">
+              <div class="provider-option selected" id="opt-openai" onclick="selectGenerator('openai')">
+                <div>OpenAI</div>
+              </div>
+              <div class="provider-option" id="opt-anthropic" onclick="selectGenerator('anthropic')">
+                <div>Anthropic</div>
+              </div>
+              <div class="provider-option" id="opt-gemini" onclick="selectGenerator('gemini')">
+                <div>Gemini</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- OpenAI Fields -->
+          <div id="fields-openai">
+            <div class="form-group">
+              <label class="form-label">Base URL (Required for LM Studio, Ollama, OpenRouter, or proxies)</label>
+              <input type="text" class="form-control" id="cfg-openai-base" value="https://api.openai.com/v1" placeholder="http://localhost:1234/v1 or http://localhost:11434">
+              <div class="notice">Leave default for official OpenAI API, or point to local endpoint.</div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Model</label>
+              <input type="text" class="form-control" id="cfg-openai-model" value="gpt-4o-mini" placeholder="gpt-4o-mini, llama3.2, mistral, etc.">
+            </div>
+            <div class="form-group">
+              <label class="form-label">API Key (Optional for LM Studio or Ollama)</label>
+              <div class="key-input-wrapper">
+                <input type="text" class="form-control masked-key" id="cfg-openai-key" placeholder="sk-..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-1p-ignore="true" data-lpignore="true" data-bwignore="true" data-form-type="other">
+                <button type="button" class="key-toggle-btn" onclick="toggleKeyVisibility('cfg-openai-key', this)" title="Show Key" aria-label="Show API key">
+                  <svg class="key-eye-icon" viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Anthropic Fields -->
+          <div id="fields-anthropic" style="display: none;">
+            <div class="form-group">
+              <label class="form-label">Base URL (Optional)</label>
+              <input type="text" class="form-control" id="cfg-anthropic-base" value="https://api.anthropic.com">
+              <div class="notice">Leave default for official Anthropic API.</div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Model</label>
+              <input type="text" class="form-control" id="cfg-anthropic-model" value="claude-3-5-haiku-latest" placeholder="claude-3-5-haiku-latest, claude-3-5-sonnet-latest">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Anthropic API Key</label>
+              <div class="key-input-wrapper">
+                <input type="text" class="form-control masked-key" id="cfg-anthropic-key" placeholder="sk-ant-..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-1p-ignore="true" data-lpignore="true" data-bwignore="true" data-form-type="other">
+                <button type="button" class="key-toggle-btn" onclick="toggleKeyVisibility('cfg-anthropic-key', this)" title="Show Key" aria-label="Show API key">
+                  <svg class="key-eye-icon" viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Gemini Fields -->
+          <div id="fields-gemini" style="display: none;">
+            <div class="form-group">
+              <label class="form-label">Base URL (Official Endpoint)</label>
+              <input type="text" class="form-control" id="cfg-gemini-base" value="https://generativelanguage.googleapis.com" disabled>
+              <div class="notice">Google Gemini API uses official cloud endpoints.</div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Model</label>
+              <input type="text" class="form-control" id="cfg-gemini-model" value="gemini-2.5-flash" placeholder="gemini-2.5-flash, gemini-2.5-pro">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Google Gemini API Key</label>
+              <div class="key-input-wrapper">
+                <input type="text" class="form-control masked-key" id="cfg-gemini-key" placeholder="AIzaSy..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-1p-ignore="true" data-lpignore="true" data-bwignore="true" data-form-type="other">
+                <button type="button" class="key-toggle-btn" onclick="toggleKeyVisibility('cfg-gemini-key', this)" title="Show Key" aria-label="Show API key">
+                  <svg class="key-eye-icon" viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-actions">
+            <button class="btn" id="btn-test-provider" type="button" onclick="testActiveProvider()">Test Provider</button>
+            <span id="provider-test-status"></span>
+          </div>
+        </div>
+
+        <!-- Card 2: Configuration -->
+        <div class="card config-card" id="card-persistence">
+          <div class="card-header">
+            <span class="card-title">Configuration</span>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Configuration File Path</label>
+            <input type="text" class="form-control" id="cfg-file-path" value="config.json">
+            <div class="notice">Path to save or reload runtime configuration settings.</div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Ticket Evaluation Mode</label>
+            <div class="segmented-control" role="group" aria-label="Ticket Evaluation Mode">
+              <button type="button" class="segmented-option" id="mode-serial" onclick="setEvaluationMode('serial')">Serial</button>
+              <button type="button" class="segmented-option active" id="mode-parallel" onclick="setEvaluationMode('parallel')">Parallel</button>
+            </div>
+            <div class="notice" id="mode-description">Parallel: dispatches 1 ticket per second with up to 10 in flight.</div>
+          </div>
+
+          <div class="card-actions">
+            <button class="btn btn-primary" onclick="applyConfig()">Apply Changes</button>
+            <button class="btn" onclick="saveConfigFile()">Save to File</button>
+            <button class="btn" onclick="loadConfigFile()">Reload from File</button>
+          </div>
+          <div class="notice" style="margin-top: 12px;">Configuration is persisted to a single JSON file. Credentials are saved in plaintext on disk.</div>
+        </div>
+
+        <!-- Card 3: Decision Engine A -->
+        <div class="card config-card" id="card-engine-a">
+          <div class="card-header">
+            <span class="card-title">Decision Engine A</span>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Provider</label>
+            <div class="provider-selector" id="engine-a-provider-selector">
+              <div class="provider-option selected" id="opt-engine-a-jev" onclick="selectEngineProvider('a', 'jev')">
+                <div>TypeSafe Jev</div>
+              </div>
+              <div class="provider-option" id="opt-engine-a-openai" onclick="selectEngineProvider('a', 'openai')">
+                <div>OpenAI</div>
+              </div>
+              <div class="provider-option" id="opt-engine-a-anthropic" onclick="selectEngineProvider('a', 'anthropic')">
+                <div>Anthropic</div>
+              </div>
+              <div class="provider-option" id="opt-engine-a-gemini" onclick="selectEngineProvider('a', 'gemini')">
+                <div>Gemini</div>
+              </div>
+              <div class="provider-option" id="opt-engine-a-disabled" onclick="selectEngineProvider('a', 'disabled')">
+                <div>Disabled</div>
+              </div>
+            </div>
+          </div>
+
+          <div id="fields-engine-a">
+            <div class="form-group" id="group-engine-a-endpoint">
+              <label class="form-label" id="lbl-engine-a-endpoint">Service Endpoint URL</label>
+              <input type="text" class="form-control" id="cfg-engine-a-endpoint" value="https://api.typesafe.ai" placeholder="https://api.typesafe.ai">
+              <div class="notice" id="notice-engine-a-endpoint">TypeSafe Jev API endpoint (defaults to https://api.typesafe.ai).</div>
+            </div>
+            <div class="form-group" id="group-engine-a-model">
+              <label class="form-label" id="lbl-engine-a-model">Model</label>
+              <input type="text" class="form-control" id="cfg-engine-a-model" value="jev-latest" placeholder="jev-latest">
+            </div>
+            <div class="form-group" id="group-engine-a-key">
+              <label class="form-label" id="lbl-engine-a-key">API Key</label>
+              <div class="key-input-wrapper">
+                <input type="text" class="form-control masked-key" id="cfg-engine-a-key" placeholder="API Key" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-1p-ignore="true" data-lpignore="true" data-bwignore="true" data-form-type="other">
+                <button type="button" class="key-toggle-btn" onclick="toggleKeyVisibility('cfg-engine-a-key', this)" title="Show Key" aria-label="Show API key">
+                  <svg class="key-eye-icon" viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div id="disabled-msg-engine-a" style="display: none; padding: 24px; text-align: center; color: var(--text-muted); font-size: 0.9rem; border: 1px dashed var(--card-border); border-radius: 6px; margin-bottom: 16px;">
+            Decision Engine A is disabled. Tickets will only be evaluated by Decision Engine B.
+          </div>
+
+          <div class="card-actions">
+            <button class="btn" id="btn-test-engine-a" type="button" onclick="testEngine('a')">Test Connection</button>
+            <span id="engine-a-test-status"></span>
+          </div>
+        </div>
+
+        <!-- Card 4: Decision Engine B -->
+        <div class="card config-card" id="card-engine-b">
+          <div class="card-header">
+            <span class="card-title">Decision Engine B</span>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Provider</label>
+            <div class="provider-selector" id="engine-b-provider-selector">
+              <div class="provider-option" id="opt-engine-b-jev" onclick="selectEngineProvider('b', 'jev')">
+                <div>TypeSafe Jev</div>
+              </div>
+              <div class="provider-option selected" id="opt-engine-b-openai" onclick="selectEngineProvider('b', 'openai')">
+                <div>OpenAI</div>
+              </div>
+              <div class="provider-option" id="opt-engine-b-anthropic" onclick="selectEngineProvider('b', 'anthropic')">
+                <div>Anthropic</div>
+              </div>
+              <div class="provider-option" id="opt-engine-b-gemini" onclick="selectEngineProvider('b', 'gemini')">
+                <div>Gemini</div>
+              </div>
+              <div class="provider-option" id="opt-engine-b-disabled" onclick="selectEngineProvider('b', 'disabled')">
+                <div>Disabled</div>
+              </div>
+            </div>
+          </div>
+
+          <div id="fields-engine-b">
+            <div class="form-group" id="group-engine-b-endpoint">
+              <label class="form-label" id="lbl-engine-b-endpoint">Base URL (Required for LM Studio, Ollama, OpenRouter, or proxies)</label>
+              <input type="text" class="form-control" id="cfg-engine-b-endpoint" value="https://api.openai.com/v1" placeholder="https://api.openai.com/v1">
+              <div class="notice" id="notice-engine-b-endpoint">Leave default for official OpenAI API, or point to local endpoint.</div>
+            </div>
+            <div class="form-group" id="group-engine-b-model">
+              <label class="form-label" id="lbl-engine-b-model">Model</label>
+              <input type="text" class="form-control" id="cfg-engine-b-model" value="gpt-4o-mini" placeholder="gpt-4o-mini">
+            </div>
+            <div class="form-group" id="group-engine-b-key">
+              <label class="form-label" id="lbl-engine-b-key">API Key (Optional for LM Studio or Ollama)</label>
+              <div class="key-input-wrapper">
+                <input type="text" class="form-control masked-key" id="cfg-engine-b-key" placeholder="sk-..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-1p-ignore="true" data-lpignore="true" data-bwignore="true" data-form-type="other">
+                <button type="button" class="key-toggle-btn" onclick="toggleKeyVisibility('cfg-engine-b-key', this)" title="Show Key" aria-label="Show API key">
+                  <svg class="key-eye-icon" viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div id="disabled-msg-engine-b" style="display: none; padding: 24px; text-align: center; color: var(--text-muted); font-size: 0.9rem; border: 1px dashed var(--card-border); border-radius: 6px; margin-bottom: 16px;">
+            Decision Engine B is disabled. Tickets will only be evaluated by Decision Engine A.
+          </div>
+
+          <div class="card-actions">
+            <button class="btn" id="btn-test-engine-b" type="button" onclick="testEngine('b')">Test Connection</button>
+            <span id="engine-b-test-status"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+{{end}}

@@ -1,0 +1,62 @@
+[
+  {
+    "id": "INC-20260925-A101",
+    "created_at": "2026-09-25T09:15:00Z",
+    "reporter_name": "Marcus Valerius",
+    "reporter_email": "marcus.valerius@example.com",
+    "department": "Engineering",
+    "category": "Hardware",
+    "reported_urgency": "High",
+    "summary": "Laptop workstation trackpad bulging and battery swelling",
+    "description": "The bottom shell of my laptop workstation has warped and the trackpad is physically jammed upwards. I have unplugged the charger and shut down the machine for safety.",
+    "affected_system": "Laptop Workstation"
+  },
+  {
+    "id": "INC-20260925-B204",
+    "created_at": "2026-09-25T10:04:12Z",
+    "reporter_name": "Claudia Octavia",
+    "reporter_email": "claudia.octavia@example.com",
+    "department": "Finance & Accounting",
+    "category": "Access & Identity",
+    "reported_urgency": "Critical",
+    "summary": "Single Sign-On authentication assertion failed for enterprise financial ledger",
+    "description": "When attempting to log in to the enterprise resource planning portal via single sign-on, the browser displays a SAML assertion signature verification failure. Three accountants on the quarter-end audit team are locked out.",
+    "affected_system": "Single Sign-On Portal"
+  },
+  {
+    "id": "INC-20260925-C330",
+    "created_at": "2026-09-25T10:45:30Z",
+    "reporter_name": "Lucius Vorenus",
+    "reporter_email": "lucius.vorenus@example.com",
+    "department": "Sales & Commercial",
+    "category": "Network",
+    "reported_urgency": "Medium",
+    "summary": "VPN client drops tunnel every 5 minutes on corporate network",
+    "description": "While working from the sales office, my virtual private network connection disconnects repeatedly with message 'Gateway unresponsive'. Standard network access works outside the VPN.",
+    "affected_system": "Virtual Private Network Client"
+  },
+  {
+    "id": "INC-20260925-D412",
+    "created_at": "2026-09-25T11:20:00Z",
+    "reporter_name": "Flavia Cassia",
+    "reporter_email": "flavia.cassia@example.com",
+    "department": "Operations & Workplace",
+    "category": "Cloud & Infrastructure",
+    "reported_urgency": "Critical",
+    "summary": "Cloud database cluster connection pool exhausted",
+    "description": "Microservices are throwing 500 errors across the application funnel due to maximum connection limits exceeded on the primary cloud database cluster.",
+    "affected_system": "Cloud Database Cluster"
+  },
+  {
+    "id": "INC-20260925-E599",
+    "created_at": "2026-09-25T12:00:15Z",
+    "reporter_name": "Titus Flavius",
+    "reporter_email": "titus.flavius@example.com",
+    "department": "Human Resources & People",
+    "category": "Software",
+    "reported_urgency": "Low",
+    "summary": "Payroll portal export timeout on large spreadsheets",
+    "description": "When exporting the global payroll register with over 3,000 employees, the payroll portal times out after 60 seconds with an HTTP 504 gateway error.",
+    "affected_system": "Payroll Portal"
+  }
+]

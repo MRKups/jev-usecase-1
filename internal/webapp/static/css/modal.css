@@ -1,0 +1,396 @@
+/* ==========================================================================
+   Ticket Inspection Modal Component (G2: The Ticket Window)
+   Self-contained modal dialog and backdrop styles
+   ========================================================================== */
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(13, 17, 23, 0.65);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.18s ease, visibility 0.18s ease;
+  padding: 24px;
+}
+
+[data-theme="light"] .modal-backdrop {
+  background: rgba(15, 23, 42, 0.45);
+}
+
+.modal-backdrop.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.ticket-modal-card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  width: 1060px;
+  max-width: 95vw;
+  max-height: 88vh;
+  overflow-y: auto;
+  box-shadow: 0 24px 48px -12px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.05);
+  padding: 32px;
+  position: relative;
+  transform: translateY(12px) scale(0.985);
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
+}
+
+[data-theme="light"] .ticket-modal-card {
+  box-shadow: 0 24px 48px -12px rgba(15, 23, 42, 0.25), 0 0 0 1px rgba(0, 0, 0, 0.04);
+}
+
+.modal-backdrop.active .ticket-modal-card {
+  transform: translateY(0) scale(1);
+}
+
+/* Modal Header */
+.modal-header-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--table-border-subtle);
+  position: relative;
+}
+
+.modal-header-main {
+  flex: 1;
+  padding-right: 28px;
+}
+
+.modal-ticket-id {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.modal-ticket-title {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--text-bright);
+  line-height: 1.3;
+  margin: 0 0 8px 0;
+}
+
+.modal-ticket-subtitle {
+  font-size: 0.84rem;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.modal-ticket-subtitle .sep {
+  opacity: 0.5;
+}
+
+.modal-close-btn {
+  background: transparent;
+  border: 1px solid var(--card-border);
+  color: var(--text-muted);
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  line-height: 1;
+  transition: all 0.15s ease;
+  flex-shrink: 0;
+}
+
+.modal-close-btn:hover {
+  background: var(--card-hover);
+  color: var(--text-bright);
+  border-color: var(--text-muted);
+}
+
+/* Modal Body Layout: 2 Columns */
+.modal-body-layout {
+  display: grid;
+  grid-template-columns: 1fr 1.65fr;
+  gap: 36px;
+  padding-top: 24px;
+}
+
+@media (max-width: 900px) {
+  .modal-body-layout {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+}
+
+/* Left Column: Description & Metadata */
+.modal-col-left {
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-subhead {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-bright);
+  margin-bottom: 10px;
+}
+
+.modal-desc-box {
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: var(--text);
+  margin-bottom: 24px;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.modal-meta-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+}
+
+.modal-meta-table tr {
+  border-bottom: 1px solid var(--table-border-subtle);
+}
+
+.modal-meta-table tr:last-child {
+  border-bottom: none;
+}
+
+.modal-meta-table td {
+  padding: 8px 0;
+  vertical-align: top;
+}
+
+.modal-meta-label {
+  color: var(--text-muted);
+  width: 100px;
+  font-weight: 500;
+}
+
+.modal-meta-value {
+  color: var(--text-bright);
+  font-weight: 500;
+}
+
+/* Right Column: Decisions, Response Time, Recommended Action */
+.modal-col-right {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.modal-decisions-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-match-summary {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+/* Criteria Comparison Table */
+.modal-criteria-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.83rem;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--card-border);
+}
+
+.modal-criteria-table th {
+  background: var(--table-header-bg);
+  color: var(--text-muted);
+  font-weight: 600;
+  font-size: 0.78rem;
+  text-align: left;
+  padding: 9px 12px;
+  border-bottom: 1px solid var(--card-border);
+}
+
+.modal-criteria-table th.col-engine {
+  width: 36%;
+}
+
+.modal-th-header-cell {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.modal-th-engine-name {
+  font-weight: 600;
+  color: var(--text-bright);
+}
+
+.modal-th-conf-badge {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--card-border);
+  padding: 1px 7px;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+[data-theme="light"] .modal-th-conf-badge {
+  background: #f1f5f9;
+  color: #475569;
+  border-color: #cbd5e1;
+}
+
+.modal-criteria-table td {
+  padding: 9px 12px;
+  border-bottom: 1px solid var(--table-border-subtle);
+  color: var(--text);
+}
+
+.modal-criteria-table tr:last-child td {
+  border-bottom: none;
+}
+
+.modal-criteria-name {
+  font-weight: 500;
+  color: var(--text-bright);
+}
+
+/* Diff Highlighting */
+.modal-criteria-table tr.row-diff {
+  background: rgba(245, 158, 11, 0.12);
+}
+
+[data-theme="light"] .modal-criteria-table tr.row-diff {
+  background: #fff7ed;
+}
+
+.modal-criteria-table tr.row-diff td.col-diff-val {
+  color: #d97706;
+  font-weight: 600;
+}
+
+[data-theme="light"] .modal-criteria-table tr.row-diff td.col-diff-val {
+  color: #c2410c;
+  font-weight: 600;
+}
+
+/* Response Time Section */
+.modal-latency-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.latency-bar-row {
+  display: grid;
+  grid-template-columns: 140px 1fr 80px;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.82rem;
+}
+
+.latency-bar-label {
+  color: var(--text-muted);
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.latency-bar-track {
+  background: var(--pill-bg);
+  border-radius: 999px;
+  height: 10px;
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+}
+
+.latency-bar-fill {
+  background: #30363d;
+  border-radius: 999px;
+  height: 100%;
+  min-width: 8px;
+  transition: width 0.3s ease;
+}
+
+[data-theme="light"] .latency-bar-fill {
+  background: #57606a;
+}
+
+.latency-bar-fill.fill-engine-a {
+  background: var(--accent);
+}
+
+.latency-bar-fill.fill-engine-b {
+  background: #8b949e;
+}
+
+[data-theme="light"] .latency-bar-fill.fill-engine-b {
+  background: #57606a;
+}
+
+.latency-bar-value {
+  color: var(--text-bright);
+  font-weight: 600;
+  text-align: right;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+.latency-bar-value.time-running {
+  color: #f59e0b;
+}
+
+[data-theme="light"] .latency-bar-value.time-running {
+  color: #b45309;
+}
+
+/* Recommended Action Section */
+.modal-actions-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.modal-action-card {
+  background: var(--pill-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 8px;
+  padding: 12px 14px;
+  font-size: 0.83rem;
+  line-height: 1.5;
+}
+
+.modal-action-header {
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.modal-action-body {
+  color: var(--text);
+  word-break: break-word;
+}

@@ -1,0 +1,280 @@
+/* ==========================================================================
+   Decision Showcase View (3-Equal-Part Comparison Grid)
+   ========================================================================== */
+
+.comparison-view-container {
+  display: flex;
+  flex-direction: column;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  margin-top: 14px;
+}
+
+.showcase-action-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 16px;
+  background: var(--card-header-bg);
+  border-bottom: 1px solid var(--card-border);
+  font-size: 0.85rem;
+}
+
+.action-bar-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.action-bar-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+}
+
+/* Comparison Table */
+.comparison-table-scroll {
+  overflow-x: auto;
+  width: 100%;
+}
+
+.comparison-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.81rem;
+  table-layout: fixed;
+  white-space: nowrap;
+}
+
+/* Group Headers */
+.group-header-row th {
+  padding: 10px 14px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: var(--text-bright);
+  background: var(--table-header-bg);
+  border-bottom: 1px solid var(--card-border);
+}
+
+.group-header-ticket {
+  border-right: 1px solid var(--card-border);
+}
+
+.group-header-engine-a {
+  border-right: 1px solid var(--card-border);
+}
+
+.group-header-engine-b {
+  /* outer right edge */
+}
+
+.group-header-content {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.group-title {
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.group-median-badge {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-weight: 400;
+  font-size: 0.77rem;
+  color: var(--text-muted);
+}
+
+.group-model-badge {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-weight: 500;
+  font-size: 0.74rem;
+  background: var(--pill-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 4px;
+  padding: 2px 6px;
+  color: var(--text);
+}
+
+/* Sub-column Headers */
+.sub-header-row th {
+  padding: 8px 10px;
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  background: var(--table-header-bg);
+  border-bottom: 1px solid var(--card-border);
+  text-align: left;
+}
+
+/* Vertical Section Separators */
+.col-border-ticket-end {
+  border-right: 1px solid var(--card-border) !important;
+}
+
+.col-border-engine-a-end {
+  border-right: 1px solid var(--card-border) !important;
+}
+
+/* Table Rows */
+.comparison-table tbody tr.comp-ticket-row {
+  border-bottom: 1px solid var(--table-border-subtle);
+  transition: background-color 0.12s ease;
+  cursor: pointer;
+  height: 38px;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.comparison-table tbody tr.comp-ticket-row:hover {
+  background: var(--card-hover);
+}
+
+.comparison-table tbody tr.comp-ticket-row.row-selected {
+  background: var(--table-row-selected);
+  position: relative;
+}
+
+.comparison-table tbody tr.comp-ticket-row.row-selected td:first-child {
+  border-left: 3px solid var(--text-bright);
+}
+
+[data-theme="light"] .comparison-table tbody tr.comp-ticket-row.row-selected td:first-child {
+  border-left: 3px solid #1f2328;
+}
+
+.comparison-table td {
+  padding: 6px 10px;
+  vertical-align: middle;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--text);
+}
+
+/* Specific Cell Alignments and Typography */
+.cell-dot {
+  width: 24px;
+  text-align: center;
+  padding-left: 8px;
+  padding-right: 4px;
+}
+
+.status-dot-icon {
+  font-size: 0.76rem;
+  line-height: 1;
+}
+
+.status-dot-done {
+  color: var(--text-bright);
+}
+
+.status-dot-running {
+  color: var(--warning);
+}
+
+.status-dot-waiting {
+  color: var(--text-muted);
+  opacity: 0.6;
+}
+
+.cell-id {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.cell-title {
+  color: var(--text-bright);
+  font-weight: 500;
+}
+
+.cell-filed-as {
+  color: var(--text-muted);
+}
+
+.cell-filed-urgency {
+  color: var(--text-muted);
+}
+
+.cell-agree {
+  font-weight: 500;
+  text-align: center;
+}
+
+.cell-agree.agree-diff {
+  color: #f59e0b;
+  font-weight: 700;
+}
+
+[data-theme="light"] .cell-agree.agree-diff {
+  color: #c2410c;
+  font-weight: 700;
+}
+
+.cell-agree.agree-full {
+  color: var(--text);
+  font-weight: 500;
+}
+
+.cell-agree.agree-pending {
+  color: var(--text-muted);
+  opacity: 0.5;
+}
+
+/* Disagreement Highlighting on Engine Cells (Soft wash across table cells, no chips) */
+.comparison-table td.cell-diff {
+  background-color: rgba(245, 158, 11, 0.09);
+  color: #f59e0b;
+  font-weight: 500;
+}
+
+[data-theme="light"] .comparison-table td.cell-diff {
+  background-color: #fffbeb;
+  color: #b45309;
+  font-weight: 500;
+}
+
+.comparison-table tbody tr.comp-ticket-row:hover td.cell-diff {
+  background-color: rgba(245, 158, 11, 0.15);
+}
+
+[data-theme="light"] .comparison-table tbody tr.comp-ticket-row:hover td.cell-diff {
+  background-color: #fef3c7;
+}
+
+.comparison-table tbody tr.comp-ticket-row.row-selected td.cell-diff {
+  background-color: rgba(245, 158, 11, 0.18);
+}
+
+[data-theme="light"] .comparison-table tbody tr.comp-ticket-row.row-selected td.cell-diff {
+  background-color: #fef08a;
+}
+
+/* Waiting Dots and Running Timers */
+.faint-dot {
+  color: var(--text-muted);
+  opacity: 0.4;
+  text-align: center;
+  display: inline-block;
+  width: 100%;
+}
+
+.cell-time {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.77rem;
+  color: var(--text-muted);
+  text-align: right;
+}
+
+.time-running {
+  font-style: italic;
+  color: var(--warning);
+}

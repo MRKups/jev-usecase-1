@@ -1,0 +1,47 @@
+{{define "page_dataset"}}
+    <div id="page-dataset" class="page">
+      <div class="card" style="padding: 16px 20px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+          <div style="display: flex; align-items: center; gap: 16px;">
+            <div style="font-weight: 600; color: var(--text-bright);">Ticket Generator</div>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span style="font-size: 0.85rem; color: var(--text-muted);">Count:</span>
+              <input type="number" id="gen-count" class="form-control" style="width: 70px; padding: 4px 8px; color: var(--text-bright); -webkit-text-fill-color: var(--text-bright); background-color: var(--input-bg);" value="5" min="1" max="99" onkeydown="if(event.key==='Enter'){generateDataset();event.preventDefault();}">
+            </div>
+            <button class="btn btn-primary" id="btn-generate-dataset" onclick="generateDataset()">Generate Tickets</button>
+            <button class="btn btn-danger" id="btn-cancel-dataset" onclick="cancelDatasetGeneration()" style="display: none;">Cancel</button>
+            <div id="gen-progress-container" style="display: none; align-items: center; gap: 8px; font-size: 0.85rem; color: var(--text-muted);">
+              <span class="spinner"></span>
+              <span id="gen-progress-text">Generating...</span>
+            </div>
+          </div>
+
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <input type="text" class="form-control" id="dataset-file-path" value="dataset.json" style="width: 180px; padding: 5px 8px; font-size: 0.8rem;">
+            <button class="btn" onclick="saveDatasetFile()">Save JSON</button>
+            <button class="btn" onclick="loadDatasetFile()">Load JSON</button>
+            <button class="btn" onclick="clearDataset()">Clear</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Ticket ID</th>
+              <th>Reported Urgency</th>
+              <th>Department</th>
+              <th>Category</th>
+              <th>Affected Asset</th>
+              <th>Summary</th>
+              <th>Reporter</th>
+            </tr>
+          </thead>
+          <tbody id="dataset-table-body">
+            <tr><td colspan="7" style="text-align: center; color: var(--text-muted); padding: 30px;">No tickets generated yet. Configure a generator on Page 1 and click 'Generate Tickets'.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+{{end}}

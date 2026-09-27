@@ -1,0 +1,118 @@
+{{define "modal_ticket"}}
+<div id="ticket-modal-backdrop" class="modal-backdrop" onclick="handleBackdropClick(event)">
+  <div class="ticket-modal-card" role="dialog" aria-modal="true" aria-labelledby="modal-ticket-title">
+    <div class="modal-header-section">
+      <div class="modal-header-main">
+        <div class="modal-ticket-id" id="modal-ticket-id">#0000</div>
+        <h2 class="modal-ticket-title" id="modal-ticket-title">Ticket Title</h2>
+        <div class="modal-ticket-subtitle" id="modal-ticket-subtitle">
+          <span id="modal-reporter-name">Reporter</span>
+          <span class="sep">·</span>
+          <span id="modal-reporter-dept">Department</span>
+          <span class="sep">·</span>
+          <span>filed <strong id="modal-filed-urgency">Medium</strong></span>
+        </div>
+      </div>
+      <div class="modal-header-actions" style="display: flex; align-items: center; gap: 10px;">
+        <button class="btn btn-primary" id="modal-eval-btn" style="padding: 6px 14px; font-size: 0.82rem;" onclick="triageCurrentModalTicket()">
+          Evaluate Ticket
+        </button>
+        <button class="modal-close-btn" onclick="closeTicketModal()" title="Close (Esc)" aria-label="Close">
+          &times;
+        </button>
+      </div>
+    </div>
+
+    <div class="modal-body-layout">
+      <!-- Left Column: Narrative & Metadata -->
+      <div class="modal-col-left">
+        <div class="modal-subhead">Description</div>
+        <div class="modal-desc-box" id="modal-desc-box">Loading description...</div>
+
+        <div class="modal-subhead" style="margin-top: 10px;">Details</div>
+        <table class="modal-meta-table">
+          <tbody>
+            <tr>
+              <td class="modal-meta-label">Reporter</td>
+              <td class="modal-meta-value" id="modal-detail-reporter">-</td>
+            </tr>
+            <tr>
+              <td class="modal-meta-label">Department</td>
+              <td class="modal-meta-value" id="modal-detail-dept">-</td>
+            </tr>
+            <tr>
+              <td class="modal-meta-label">Asset</td>
+              <td class="modal-meta-value" id="modal-detail-asset">-</td>
+            </tr>
+            <tr>
+              <td class="modal-meta-label">Filed as</td>
+              <td class="modal-meta-value" id="modal-detail-category">-</td>
+            </tr>
+            <tr>
+              <td class="modal-meta-label">Filed urgency</td>
+              <td class="modal-meta-value" id="modal-detail-urgency">-</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Right Column: Decisions, Response time, Recommended action -->
+      <div class="modal-col-right">
+        <!-- Decisions comparison table -->
+        <div>
+          <div class="modal-decisions-header" style="margin-bottom: 10px;">
+            <div class="modal-subhead" style="margin-bottom: 0;">Decisions</div>
+            <div class="modal-match-summary" id="modal-match-summary">-</div>
+          </div>
+          <table class="modal-criteria-table">
+            <thead>
+              <tr>
+                <th>Criterion</th>
+                <th class="col-engine" id="modal-th-engine-a">Decision Engine A</th>
+                <th class="col-engine" id="modal-th-engine-b">Decision Engine B</th>
+              </tr>
+            </thead>
+            <tbody id="modal-criteria-tbody">
+              <!-- Dynamically populated rows -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Response time comparison bars -->
+        <div class="modal-latency-section">
+          <div class="modal-subhead">Response time</div>
+          <div class="latency-bar-row">
+            <span class="latency-bar-label" id="modal-bar-label-a">Decision Engine A</span>
+            <div class="latency-bar-track">
+              <div class="latency-bar-fill fill-engine-a" id="modal-bar-fill-a" style="width: 0%;"></div>
+            </div>
+            <span class="latency-bar-value" id="modal-bar-val-a">-</span>
+          </div>
+          <div class="latency-bar-row">
+            <span class="latency-bar-label" id="modal-bar-label-b">Decision Engine B</span>
+            <div class="latency-bar-track">
+              <div class="latency-bar-fill fill-engine-b" id="modal-bar-fill-b" style="width: 0%;"></div>
+            </div>
+            <span class="latency-bar-value" id="modal-bar-val-b">-</span>
+          </div>
+        </div>
+
+        <!-- Recommended actions side by side -->
+        <div>
+          <div class="modal-subhead" style="margin-bottom: 10px;">Recommended action</div>
+          <div class="modal-actions-container">
+            <div class="modal-action-card">
+              <div class="modal-action-header" id="modal-action-hdr-a">Decision Engine A</div>
+              <div class="modal-action-body" id="modal-action-body-a">-</div>
+            </div>
+            <div class="modal-action-card">
+              <div class="modal-action-header" id="modal-action-hdr-b">Decision Engine B</div>
+              <div class="modal-action-body" id="modal-action-body-b">-</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{{end}}

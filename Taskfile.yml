@@ -1,0 +1,84 @@
+version: '3'
+
+vars:
+  BINARY_NAME: bin/ticket-eval
+  DARWIN_ARM64_BUILD: bin/ticket-eval-darwin-arm64
+  LINUX_AMD64_BUILD: bin/ticket-eval-linux-amd64
+
+tasks:
+  default:
+    desc: List available tasks
+    cmds:
+      - task --list
+
+  build:
+    desc: Build the ticket-eval binary locally with zero CGO
+    cmds:
+      - mkdir -p bin
+      - CGO_ENABLED=0 go build -o {{.BINARY_NAME}} ./cmd/ticket-eval
+
+  test:
+    desc: Run host-safe Go test suite
+    cmds:
+      - go test -v ./...
+
+  test:race:
+    desc: Run test suite with Go data race detector
+    cmds:
+      - go test -race -v ./...
+
+  check:
+    desc: Run full check-guard (gofmt, go vet, race detector, CGO_ENABLED=0, test count guard)
+    cmds:
+      - ./scripts/check-guard.sh
+
+  fmt:
+    desc: Format Go source files with canonical gofmt
+    cmds:
+      - gofmt -w .
+
+  vet:
+    desc: Run go vet static analysis
+    cmds:
+      - go vet ./...
+
+  bench:
+    desc: Run Go benchmark suite
+    cmds:
+      - go test -bench=. -benchmem ./...
+
+  run:web:
+    desc: Start the decision engine web application on :8080
+    cmds:
+      - go run ./cmd/ticket-eval serve --addr=127.0.0.1:8080
+
+  generate:json:
+    desc: Procedurally generate 20 ITSM tickets to JSON
+    cmds:
+      - go run ./cmd/ticket-eval generate --count=20 --format=json --output=dataset.json
+
+  generate:csv:
+    desc: Procedurally generate 20 ITSM tickets to CSV
+    cmds:
+      - go run ./cmd/ticket-eval generate --count=20 --format=csv --output=tickets.csv
+
+  triage:sample:
+    desc: Run the sample ticket fixtures through the triage decision engine
+    cmds:
+      - go run ./cmd/ticket-eval triage --input=fixtures/tickets/sample_tickets.json
+
+  darwin:arm64:build:
+    desc: Cross-compile ticket-eval for Apple silicon macOS
+    cmds:
+      - mkdir -p bin
+      - GOOS=darwin GOARCH=arm64 CGO_ENABLED=0 go build -buildvcs=false -o {{.DARWIN_ARM64_BUILD}} ./cmd/ticket-eval
+    generates:
+      - '{{.DARWIN_ARM64_BUILD}}'
+
+  linux:amd64:build:
+    desc: Cross-compile ticket-eval for Linux amd64
+    cmds:
+      - mkdir -p bin
+      - GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -buildvcs=false -o {{.LINUX_AMD64_BUILD}} ./cmd/ticket-eval
+    generates:
+      - '{{.LINUX_AMD64_BUILD}}'

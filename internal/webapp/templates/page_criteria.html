@@ -1,0 +1,70 @@
+{{define "page_criteria"}}
+    <div id="page-criteria" class="page">
+      <div class="card" style="padding: 16px 20px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+          <div>
+            <div style="font-weight: 600; font-size: 1rem; color: var(--text-bright);">Operational Triage Criteria &amp; Rubric</div>
+            <div style="font-size: 0.82rem; color: var(--text-muted); margin-top: 2px;">
+              Operational questions and rubric guidelines evaluated by Decision Engines (Jev and comparative LLM).
+            </div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+            <input type="text" class="form-control" id="criteria-file-path" value="questions.json" style="width: 160px; padding: 5px 8px; font-size: 0.8rem;">
+            <button class="btn" onclick="saveCriteriaFile()">Save JSON</button>
+            <button class="btn" onclick="loadCriteriaFile()">Load JSON</button>
+            <button class="btn" id="btn-toggle-add-criteria" onclick="toggleAddQuestionForm()">+ Add Question</button>
+            <button class="btn" id="btn-reset-criteria" onclick="resetCriteria()">Reset Defaults</button>
+            <button class="btn btn-primary" id="btn-save-criteria" onclick="saveCriteria()">Apply Criteria</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Add Question Form (Collapsed by default) -->
+      <div id="add-criteria-box" class="card" style="display: none; border-color: var(--accent); background: var(--input-bg);">
+        <div class="card-header">
+          <span class="card-title" style="color: var(--accent-hover);">Add New Operational Question</span>
+          <button class="btn" style="padding: 2px 8px; font-size: 0.8rem;" onclick="toggleAddQuestionForm(false)">Cancel</button>
+        </div>
+        <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 14px; margin-bottom: 12px;">
+          <div>
+            <label class="form-label">Question ID (lowercase snake_case, unique)</label>
+            <input type="text" id="new-q-id" class="form-control" placeholder="e.g. root_cause_category">
+          </div>
+          <div>
+            <label class="form-label">Evaluation Type</label>
+            <select id="new-q-type" class="form-control" onchange="onNewQuestionTypeChange()">
+              <option value="choice">Multiple Choice (choice)</option>
+              <option value="noul">Binary / Boolean (noul)</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Question Text (The operational prompt evaluated by engines)</label>
+          <input type="text" id="new-q-text" class="form-control" placeholder="e.g. What is the suspected primary root cause?">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Instructions (Guidance for the decision model)</label>
+          <input type="text" id="new-q-instructions" class="form-control" placeholder="e.g. Categorize the failure mode based on error logs and symptoms.">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Choices / Allowed Options</label>
+          <div id="new-q-choices-container" style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 8px;"></div>
+          <div style="display: flex; gap: 8px; align-items: center;">
+            <input type="text" id="new-choice-text" class="form-control" placeholder="Type a choice name and click + Add Choice..." style="max-width: 320px;" onkeydown="if(event.key==='Enter'){addChoiceToNewQuestion();event.preventDefault();}">
+            <button class="btn" type="button" onclick="addChoiceToNewQuestion()">+ Add Choice</button>
+          </div>
+          <div class="notice">Add each choice option for this question. Multiple choices are evaluated against the operational rubric.</div>
+        </div>
+        <div style="display: flex; justify-content: flex-end; gap: 8px;">
+          <button class="btn btn-primary" onclick="submitAddQuestion()">Add Question to Criteria</button>
+        </div>
+      </div>
+
+      <!-- Criteria List Container -->
+      <div id="criteria-list" class="criteria-container">
+        <div style="text-align: center; color: var(--text-muted); padding: 40px;">
+          <span class="spinner"></span> Loading criteria...
+        </div>
+      </div>
+    </div>
+{{end}}

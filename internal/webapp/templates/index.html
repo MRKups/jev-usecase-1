@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jev Usecase - Ticket System</title>
+  <script>
+    (function() {
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'light' || savedTheme === 'dark') {
+        document.documentElement.setAttribute('data-theme', savedTheme);
+      } else {
+        const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        document.documentElement.setAttribute('data-theme', prefersDark ? 'dark' : 'light');
+      }
+    })();
+  </script>
+  <link rel="stylesheet" href="/static/css/style.css">
+  <link rel="stylesheet" href="/static/css/decision.css">
+  <link rel="stylesheet" href="/static/css/modal.css">
+</head>
+<body>
+  <header>
+    <div class="brand-section">
+      <h1>Jev Usecase - Ticket System</h1>
+    </div>
+
+    <nav class="tabs">
+      <button class="tab-btn active" onclick="switchPage('config')">
+        <span class="step-badge">1</span>
+        <span>Configuration</span>
+      </button>
+      <button class="tab-btn" onclick="switchPage('dataset')">
+        <span class="step-badge">2</span>
+        <span>Dataset Generator</span>
+      </button>
+      <button class="tab-btn" onclick="switchPage('criteria')">
+        <span class="step-badge">3</span>
+        <span>Triage Criteria</span>
+      </button>
+      <button class="tab-btn" onclick="switchPage('showcase')">
+        <span class="step-badge">4</span>
+        <span>Decision Engine</span>
+      </button>
+    </nav>
+
+    <div class="header-actions">
+      <button id="theme-toggle" class="theme-toggle-pill" onclick="toggleTheme()" type="button" title="Toggle Light or Dark theme" aria-label="Toggle Light or Dark theme">
+        <span class="theme-icon theme-sun" id="theme-sun">
+          <svg class="theme-glyph" viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="4"></circle>
+            <path d="M12 2v2"></path>
+            <path d="M12 20v2"></path>
+            <path d="M4.93 4.93l1.41 1.41"></path>
+            <path d="M17.66 17.66l1.41 1.41"></path>
+            <path d="M2 12h2"></path>
+            <path d="M20 12h2"></path>
+            <path d="M6.34 17.66l-1.41 1.41"></path>
+            <path d="M19.07 4.93l-1.41 1.41"></path>
+          </svg>
+        </span>
+        <span class="theme-icon theme-moon" id="theme-moon">
+          <svg class="theme-glyph" viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+        </span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+
+{{template "page_config" .}}
+
+{{template "page_dataset" .}}
+
+{{template "page_criteria" .}}
+
+{{template "page_decision" .}}
+  </main>
+
+  {{template "modal_ticket" .}}
+
+  <div id="toast-container" class="toast-container"></div>
+
+  <script src="/static/js/app.js"></script>
+  <script src="/static/js/config.js"></script>
+  <script src="/static/js/dataset.js"></script>
+  <script src="/static/js/criteria.js"></script>
+  <script src="/static/js/modal.js"></script>
+  <script src="/static/js/decision.js"></script>
+  <script src="/static/js/export.js"></script>
+</body>
+</html>
