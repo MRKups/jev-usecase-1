@@ -2,6 +2,8 @@
 
 A small demonstrator project showing how [TypeSafe Jev](https://typesafe.ai) can be used to classify and triage IT helpdesk tickets, comparing its answers and latency side-by-side with general LLMs.
 
+Companion article: [https://michalkups.com/post/11/jev-1/](https://michalkups.com/post/11/jev-1/)
+
 ## What it does
 
 - **Synthetic ticket generator**: creates fake IT support tickets with varying user tones and technical issues (using OpenAI, Claude, Gemini, OpenRouter, or local models via Ollama/LM Studio).
